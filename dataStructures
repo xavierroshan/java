@@ -1,0 +1,67 @@
+Level 1: Classes, encapsulation, generics
+1. Build your own DynamicArray<T>
+Implement add, get(index), remove(index), size, and contains. Back it with a private Object[] that doubles in size when full.
+OOP: encapsulation (keep the array private and expose only safe methods), generics, throwing IndexOutOfBoundsException.
+DSA: amortized O(1) append. Work out why doubling gives amortized O(1) while growing by +10 each time gives O(n).
+Stretch: shrink the array when it falls to ¼ full. Why ¼ and not ½?
+
+
+2. Stack and Queue behind interfaces
+Define interface Stack<T> with push, pop, peek, isEmpty. Write two implementations: ArrayStack<T>, which reuses problem 1, and LinkedStack<T>. Do the same for Queue<T>, using a circular array.
+Apply it: a balanced brackets checker ("{[()]}" is valid, "([)]" is not), and evaluation of postfix expressions like "3 4 + 2 *".
+OOP: programming to an interface. Your client code shouldn’t know or care which implementation it’s using.
+DSA: LIFO/FIFO and the trade-offs between array-based and linked implementations.
+3. Doubly linked list with an Iterator
+LinkedList<T> implements Iterable<T>, with a private static nested Node<T> class. Support addFirst, addLast, remove(T), and reverse().
+OOP: nested/inner classes and implementing Java’s Iterator contract so that for (T x : list) works.
+DSA: pointer manipulation, in-place reversal, and Floyd’s cycle detection (add a deliberately broken createCycle() method for testing).
+Level 2: Inheritance, polymorphism, abstraction
+4. Shape hierarchy and sorting
+abstract class Shape with abstract double area(), plus Circle, Rectangle, and Triangle subclasses. Make Shape implements Comparable<Shape> (compare by area). Then sort a list by perimeter using a Comparator without changing the class.
+OOP: abstract classes, method overriding, Comparable vs Comparator, and why equals/hashCode must be overridden together.
+DSA: write a generic mergeSort(List<T> list, Comparator<T> c) yourself instead of calling Collections.sort.
+5. Pluggable sorting framework
+interface SortStrategy<T> with implementations BubbleSort, InsertionSort, MergeSort, QuickSort, and HeapSort. A Sorter class takes a strategy, counts comparisons and swaps, and times each run.
+Benchmark on random, already-sorted, and reverse-sorted arrays of size 1K, 10K, and 100K.
+OOP: the Strategy pattern and composition over inheritance.
+DSA: see best, average, and worst cases empirically. In particular, watch naive QuickSort degrade to O(n²) on sorted input, then fix it with a randomized pivot.
+6. Binary Search Tree, then an AVL tree via inheritance
+BST<T extends Comparable<T>> with insert, delete (handle all 3 cases), search, height, and inorder/preorder/postorder/level-order traversals.
+Then write AVLTree<T> extends BST<T> that overrides insert/delete to rebalance with rotations.
+OOP: bounded generics, inheritance, protected vs private, and when overriding gets awkward (a useful lesson in itself).
+DSA: tree recursion, balancing, and the gap between O(log n) and O(n).
+7. Min-heap and a task scheduler
+BinaryHeap<T> backed by an array, taking a Comparator. Implement insert, extractMin, and heapify.
+Apply it: a TaskScheduler where Task has a priority and a deadline, and tasks are processed in priority order.
+DSA: sift-up/sift-down, why building a heap is O(n) rather than O(n log n), and the top-K elements problem.
+Level 3: Design meets algorithms
+8. Your own HashMap<K, V>
+Separate chaining with an array of linked lists, a load factor of 0.75, and resizing with rehash.
+OOP: the equals/hashCode contract. Create a Person class that breaks the contract and watch lookups fail.
+DSA: collision handling, amortized O(1), and why a bad hash function degrades to O(n).
+9. LRU Cache (a classic interview problem)
+interface Cache<K, V> with get and put. LRUCache must do both in O(1) using a HashMap plus a doubly linked list. Then add an LFUCache implementation of the same interface.
+Why it’s valuable: it forces you to combine two data structures inside one well-encapsulated class.
+10. Graph library and route planner
+interface Graph<V>, with AdjacencyListGraph and AdjacencyMatrixGraph implementations. Algorithms go in a separate GraphAlgorithms class: BFS, DFS, Dijkstra, topological sort, and cycle detection.
+Apply it: a city-to-city shortest route planner with weighted edges, and a course-prerequisite scheduler using topological sort.
+OOP: separating data representation from algorithms.
+DSA: Dijkstra with your own heap from problem 7.
+11. Trie-based autocomplete
+Trie with insert, search, startsWith, and suggest(prefix, k), which returns the top-k words ranked by frequency.
+DSA: prefix trees, DFS with pruning, and combining with a heap for the top-k.
+12. Parking lot or library management system
+Object-oriented design problems: model ParkingLot, Level, Spot (subclasses CompactSpot, LargeSpot), Vehicle, and Ticket. Find the nearest free spot efficiently, using a priority queue per spot type.
+OOP: class relationships (is-a vs has-a), SOLID principles, and enums.
+Level 4: Capstones
+13. Text editor with undo/redo
+Operations are Command objects (InsertCommand, DeleteCommand) with execute() and undo(), managed by two stacks.
+OOP: the Command pattern. DSA: stacks. Optionally use a gap buffer or rope for the text itself.
+14. Expression evaluator
+Parse "3 + 4 * (2 - 1)" with the Shunting-yard algorithm into an expression tree of Node subclasses (NumberNode, BinaryOpNode). Then evaluate it, and pretty-print it using the Visitor pattern.
+This one pulls together polymorphism, recursion, stacks, and trees.
+How to get the most out of these
+Write JUnit tests first for every class. It forces you to think about the interface before the implementation.
+State the Big-O of every public method in a Javadoc comment, then verify it with a quick benchmark.
+Don’t use java.util collections for the structure you’re building in a given problem. After you’ve built it, compare your version against the JDK’s (e.g., read the source of ArrayList and HashMap). That’s where much of the learning happens.
+Refactor as you go: by problem 10, you should be reusing your own heap, list, and map rather than rewriting them.

@@ -1,36 +1,34 @@
-import java.math.BigDecimal;
-import java.util.Scanner;
-
-
-
-
-
 class counterManipulate{
     public int counter =0;
 
-    public int increment(int counter){
+    public int increment(){
         counter++;
         return counter;
     }
-    public int reset(int counter){
+    public int reset(){
         counter =0;
         return counter;
     }
-    public int decrement(int counter) {
+    public int decrement() {
         counter--;
         return counter;
 }
+    public int getCounter() {
+        return counter;
+    }
 }
 
 
 
-public class counter {
+public class increment {
     public static void main (String[] args){
         counterManipulate manipulate = new counterManipulate();
-        manipulate.increment(counter);
         manipulate.increment();
-        System.out.println();
-
+        manipulate.increment();
+        manipulate.decrement();
+        manipulate.increment();
+        manipulate.reset();
+        System.out.println(manipulate.getCounter());
 
     }
 }

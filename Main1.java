@@ -1,4 +1,23 @@
-public class MyLinkedList {
+// Main.java - everything in one file
+public class Main1 {
+    public static void main(String[] args) {
+        MyLinkedList list = new MyLinkedList();
+        list.addLast(10);
+        list.addLast(20);
+        list.addLast(30);
+        list.addFirst(5);
+        list.insertAt(2, 15);
+        list.print();              // 5 -> 10 -> 15 -> 20 -> 30 -> null
+
+        list.delete(20);
+        list.print();              // 5 -> 10 -> 15 -> 30 -> null
+
+        System.out.println(list.contains(15)); // true
+        System.out.println(list.size());       // 4
+    }
+}
+
+class MyLinkedList {
 
     // Node class
     private static class Node {
@@ -98,21 +117,5 @@ public class MyLinkedList {
             current = current.next;
         }
         System.out.println("null");
-    }
-
-    public static void main(String[] args) {
-        MyLinkedList list = new MyLinkedList();
-        list.addLast(10);
-        list.addLast(20);
-        list.addLast(30);
-        list.addFirst(5);
-        list.insertAt(2, 15);
-        list.print();              // 5 -> 10 -> 15 -> 20 -> 30 -> null
-
-        list.delete(20);
-        list.print();              // 5 -> 10 -> 15 -> 30 -> null
-
-        System.out.println(list.contains(15)); // true
-        System.out.println(list.size());       // 4
     }
 }
